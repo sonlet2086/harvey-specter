@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const heroImage = "/harvey-background-highres.jpg";
+const heroDesktopImage = "/harvey-background-highres.jpg";
+const heroMobileImage = "/harvey-background-highres.jpg";
 
 const navLinks = ["About", "Services", "Projects", "News", "Contact"];
 
@@ -51,23 +52,32 @@ export default function Home() {
         </div>
       )}
 
-      <section
-        className="relative h-svh overflow-hidden bg-[#fafafa]"
-      >
-        <div className="absolute inset-0">
+      <section className="relative h-svh overflow-hidden bg-[#c2ccd1] lg:h-[847px]">
+        <div className="absolute left-0 right-[-39.47%] top-[calc(50%-14px)] h-[847px] -translate-y-1/2 lg:hidden">
           <Image
-            src={heroImage}
+            src={heroMobileImage}
             alt=""
             fill
             priority
-            sizes="100vw"
+            sizes="524px"
             className="object-cover object-center"
           />
         </div>
+        <div className="absolute left-1/2 top-[-205px] hidden h-[1434.67px] w-[2441.92px] -translate-x-1/2 overflow-hidden lg:block">
+          <div className="absolute left-[-8.81%] top-[-7.1%] h-[144.63%] w-[127.45%]">
+            <Image
+              src={heroDesktopImage}
+              alt=""
+              fill
+              priority
+              sizes="3112px"
+              className="object-fill"
+            />
+          </div>
+        </div>
 
-        {/* Blur overlay — fades from nothing at the top to full blur at the bottom */}
         <div
-          className="absolute bottom-0 left-0 right-0 h-[349px] backdrop-blur-[10px] lg:bottom-auto lg:top-[498px]"
+          className="absolute bottom-0 left-0 right-0 h-[349px] bg-[rgba(217,217,217,0.01)] backdrop-blur-[10px] lg:bottom-auto lg:top-[498px]"
           style={{
             WebkitMaskImage:
               "linear-gradient(to bottom, transparent 0%, black 65%)",
@@ -76,11 +86,9 @@ export default function Home() {
           }}
         />
 
-        {/* Layout — relative, no z-index, keeps blend modes working against bg */}
-        <div className="relative flex h-full flex-col justify-between px-4 pb-6 lg:justify-start lg:gap-[240px] lg:px-8 lg:pb-0">
+        <div className="relative flex h-full flex-col items-center justify-between px-4 pb-6 lg:justify-start lg:gap-[240px] lg:px-8 lg:pb-0">
 
-          {/* Nav */}
-          <nav className="shrink-0 flex items-center justify-between py-6">
+          <nav className="flex w-full shrink-0 items-center justify-between py-6">
             <span className="text-base font-semibold capitalize tracking-[-0.04em] text-black">
               H.Studio
             </span>
@@ -121,34 +129,21 @@ export default function Home() {
             </button>
           </nav>
 
-          {/* Hero content */}
-          <div className="flex h-[341px] shrink-0 flex-col justify-between lg:h-auto lg:w-full lg:items-center lg:justify-center lg:pb-0">
+          <div className="mb-8 flex h-[341px] w-full shrink-0 flex-col items-center justify-between lg:mb-0 lg:h-auto lg:justify-center">
 
-            {/* Name block */}
             <div className="flex w-full flex-col items-center lg:items-start lg:pb-[15px]">
               <p
-                className="font-mono text-sm uppercase leading-[1.1] text-white mix-blend-overlay
-                           text-center lg:mb-[-15px] lg:px-[18px] lg:text-left"
+                className="w-full px-[18px] text-center font-mono text-sm uppercase leading-[1.1] text-white mix-blend-overlay lg:mb-[-15px] lg:text-left"
               >
                 [ Hello i&apos;m ]
               </p>
               <h1
-                className="w-full font-sans font-medium capitalize
-                           text-center
-                           bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.28)_26%,rgba(255,210,31,0.88)_46%,rgba(255,255,255,0.96)_64%,rgba(255,255,255,0.58)_100%)]
-                           lg:bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.36)_31%,rgba(255,209,25,0.9)_47%,rgba(255,255,255,0.98)_62%,rgba(255,255,255,0.68)_100%)]
-                           bg-clip-text text-transparent
-                           mix-blend-overlay
-                           tracking-[-0.07em] lg:tracking-[-13.86px]
-                           whitespace-normal lg:whitespace-pre-wrap
-                           leading-[0.84] pb-[0.08em] lg:leading-[1.1] lg:mb-[-15px] lg:pb-0
-                           text-[96px] lg:text-[clamp(198px,13.75vw,240px)]"
+                className="mb-0 w-full whitespace-pre-wrap text-center font-sans text-[96px] font-medium capitalize leading-[0.8] tracking-[-6.72px] text-white mix-blend-overlay lg:mb-[-15px] lg:text-left lg:text-[clamp(164px,13.75vw,198px)] lg:leading-[1.1] lg:tracking-[-13.86px]"
               >
                 Harvey   Specter
               </h1>
             </div>
 
-            {/* Description */}
             <div className="flex w-full justify-center lg:justify-end lg:mt-0">
               <div className="flex w-[293px] flex-col items-start gap-[17px] lg:w-[294px]">
                 <p className="w-[294px] text-[#1f1f1f] text-sm font-bold italic uppercase tracking-[-0.04em] leading-[1.1]">
