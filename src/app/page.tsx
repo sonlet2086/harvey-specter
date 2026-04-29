@@ -6,6 +6,7 @@ import { useState } from "react";
 const heroDesktopImage = "/harvey-background-highres.jpg";
 const heroMobileImage = "/harvey-background-highres.jpg";
 const aboutPortraitImage = "/about-portrait.png";
+const cameraSectionImage = "/camera-section.png";
 
 const navLinks = ["About", "Services", "Projects", "News", "Contact"];
 
@@ -299,6 +300,16 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="relative h-svh min-h-[565px] overflow-hidden bg-[#111]">
+        <Image
+          src={cameraSectionImage}
+          alt="Photographer looking through a camera outdoors"
+          fill
+          sizes="100vw"
+          className="object-cover object-[32%_center] md:object-center"
+        />
       </section>
     </main>
   );
