@@ -215,7 +215,7 @@ export default function Home() {
 
           <div className="hidden w-full flex-col gap-2 uppercase md:flex">
             <div className="flex w-full items-start gap-3 whitespace-nowrap">
-              <h2 className="font-sans text-[96px] font-light leading-[0.84] tracking-[-7.68px]">
+              <h2 className="font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em]">
                 A creative director&nbsp;&nbsp; <span aria-hidden="true">/</span>
               </h2>
               <span className="shrink-0 font-mono text-sm leading-[1.1] text-[#1f1f1f]">
@@ -223,11 +223,11 @@ export default function Home() {
               </span>
             </div>
 
-            <p className="pl-[214px] font-sans text-[96px] font-light leading-[0.84] tracking-[-7.68px] whitespace-nowrap">
+            <p className="pl-[15.55%] font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
               Photographer
             </p>
 
-            <p className="pl-[610px] font-sans text-[96px] font-light leading-[0.84] tracking-[-7.68px] whitespace-nowrap">
+            <p className="pl-[44.33%] font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
               Born{" "}
               <span className="font-[family-name:var(--font-playfair)] italic normal-case">
                 &amp;
@@ -235,15 +235,15 @@ export default function Home() {
               raised
             </p>
 
-            <p className="font-sans text-[96px] font-light leading-[0.84] tracking-[-7.68px] whitespace-nowrap">
+            <p className="font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
               on the south side
             </p>
 
-            <div className="relative flex w-full flex-col pl-[606px]">
-              <p className="min-w-full font-sans text-[96px] font-light leading-[0.84] tracking-[-7.68px] whitespace-nowrap">
+            <div className="relative flex w-full flex-col pl-[44.04%]">
+              <p className="min-w-full font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
                 of chicago.
               </p>
-              <p className="absolute left-[1079px] top-[26px] font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
+              <p className="mt-3 self-end font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
                 [ creative freelancer ]
               </p>
             </div>
