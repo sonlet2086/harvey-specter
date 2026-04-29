@@ -5,8 +5,12 @@ import { useState } from "react";
 
 const heroDesktopImage = "/harvey-background-highres.jpg";
 const heroMobileImage = "/harvey-background-highres.jpg";
+const aboutPortraitImage = "/about-portrait.png";
 
 const navLinks = ["About", "Services", "Projects", "News", "Contact"];
+
+const aboutDetailCopy =
+  "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -246,6 +250,52 @@ export default function Home() {
               <p className="mt-3 self-end font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
                 [ creative freelancer ]
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f7f7f7] px-4 py-12 text-[#1f1f1f] xl:px-8 xl:py-20">
+        <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-5 xl:h-[614px] xl:flex-row xl:justify-between xl:gap-8">
+          <p className="font-mono text-sm uppercase leading-[1.1] whitespace-nowrap xl:hidden">
+            002
+          </p>
+
+          <p className="font-mono text-sm uppercase leading-[1.1] whitespace-nowrap xl:shrink-0">
+            [ About ]
+          </p>
+
+          <div className="flex w-full flex-col items-start gap-5 xl:h-full xl:w-[min(71.44vw,983px)] xl:flex-row xl:items-end xl:gap-8">
+            <div className="flex w-full max-w-[465px] items-stretch justify-between xl:w-[min(33.79vw,465px)] xl:shrink">
+              <div className="flex w-6 shrink-0 flex-col justify-between">
+                <span className="block size-4 border-l border-t border-[#1f1f1f]" />
+                <span className="block size-4 border-b border-l border-[#1f1f1f]" />
+              </div>
+
+              <p className="min-w-0 flex-1 py-3 text-sm font-normal leading-[1.3] tracking-[-0.04em]">
+                {aboutDetailCopy}
+              </p>
+
+              <div className="flex w-6 shrink-0 flex-col items-end justify-between">
+                <span className="block size-4 border-r border-t border-[#1f1f1f]" />
+                <span className="block size-4 border-b border-r border-[#1f1f1f]" />
+              </div>
+            </div>
+
+            <div className="flex w-full flex-col items-start xl:w-auto xl:shrink-0 xl:flex-row xl:gap-6">
+              <p className="hidden font-mono text-sm uppercase leading-[1.1] whitespace-nowrap xl:block">
+                002
+              </p>
+
+              <div className="relative aspect-[422/594] w-full max-w-[436px] overflow-hidden xl:h-[614px] xl:w-[436px] xl:max-w-none">
+                <Image
+                  src={aboutPortraitImage}
+                  alt="Black and white close-up portrait of Harvey Specter"
+                  fill
+                  sizes="(min-width: 1024px) 436px, calc(100vw - 32px)"
+                  className="object-cover object-center"
+                />
+              </div>
             </div>
           </div>
         </div>
