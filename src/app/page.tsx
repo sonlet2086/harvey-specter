@@ -10,6 +10,40 @@ const cameraSectionImage = "/camera-section.png";
 
 const navLinks = ["About", "Services", "Projects", "News", "Contact"];
 
+const serviceDescriptionDesktop =
+  "Placeholder description of this service. Explain the value you provide and the outcomes clients can expect. Keep it to two or three sentences.";
+
+const serviceDescriptionMobile =
+  "We are a creative studio that loves making beautiful websites and premium products. We've won some awards for our work. We're really good at creating brands, designing cool stuff, and making things work just right.";
+
+const services = [
+  {
+    number: "1",
+    title: "Brand Discovery",
+    image: "/service-brand.png",
+    alt: "Printed brand cards and packaging held in someone's hands",
+  },
+  {
+    number: "2",
+    title: "Web design & Dev",
+    image: "/service-web.png",
+    alt: "Tablet showing a wireframe sketch beside a mouse",
+  },
+  {
+    number: "3",
+    title: "Marketing",
+    image: "/service-marketing.png",
+    alt: "Analytics dashboard displayed on a bright screen",
+  },
+  {
+    number: "4",
+    title: "Photography",
+    image: "/service-photography.png",
+    alt: "White skincare tube on green leaves",
+    imageClassName: "object-[center_84%]",
+  },
+];
+
 const aboutDetailCopy =
   "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
 
@@ -310,6 +344,67 @@ export default function Home() {
           sizes="100vw"
           className="object-cover object-[32%_center] md:object-center"
         />
+      </section>
+
+      <section
+        id="services"
+        className="bg-black px-4 py-12 text-white md:px-8 md:py-16 xl:py-20"
+      >
+        <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-8 xl:gap-12">
+          <p className="font-mono text-sm uppercase leading-[1.1] whitespace-nowrap">
+            [ Services ]
+          </p>
+
+          <div className="flex w-full items-center justify-between font-sans text-[32px] font-light uppercase leading-[normal] tracking-[-0.08em] md:text-[clamp(48px,6.667vw,96px)]">
+            <p className="shrink-0">[4]</p>
+            <p className="shrink-0">Deliverables</p>
+          </div>
+
+          <div className="flex w-full flex-col gap-12">
+            {services.map((service) => (
+              <article
+                key={service.number}
+                className="flex w-full flex-col items-start gap-3 xl:gap-[9px]"
+              >
+                <div className="flex w-full flex-col items-start gap-[9px]">
+                  <p className="w-full font-mono text-sm uppercase leading-[1.1]">
+                    [ {service.number} ]
+                  </p>
+                  <div className="h-px w-full bg-white/70" />
+                </div>
+
+                <div className="flex w-full flex-col items-start gap-4 xl:flex-row xl:justify-between xl:gap-6">
+                  <h3 className="whitespace-nowrap font-sans text-4xl font-bold italic uppercase leading-[1.1] tracking-[-0.04em]">
+                    {service.title}
+                  </h3>
+
+                  <div className="flex w-full flex-col items-start gap-4 xl:w-[568px] xl:flex-row xl:gap-6">
+                    <p className="w-full text-sm font-normal leading-[1.3] tracking-[-0.04em] xl:w-[393px]">
+                      <span className="xl:hidden">
+                        {serviceDescriptionMobile}
+                      </span>
+                      <span className="hidden xl:inline">
+                        {serviceDescriptionDesktop}
+                      </span>
+                    </p>
+
+                    <div className="relative size-[151px] shrink-0 overflow-hidden">
+                      <Image
+                        src={service.image}
+                        alt={service.alt}
+                        fill
+                        sizes="151px"
+                        className={`object-cover ${
+                          service.imageClassName ?? "object-center"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
       </section>
     </main>
   );
