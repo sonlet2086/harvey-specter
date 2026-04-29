@@ -54,26 +54,14 @@ export default function Home() {
       <section
         className="relative h-svh overflow-hidden bg-[#fafafa]"
       >
-        <div className="absolute left-[-18%] right-[-21.47%] top-1/2 h-[847px] -translate-y-1/2 lg:hidden">
+        <div className="absolute inset-0">
           <Image
             src={heroImage}
             alt=""
             fill
             priority
-            sizes="140vw"
-            className="object-cover"
-            style={{ objectPosition: "center center" }}
-          />
-        </div>
-        <div className="absolute left-[-26%] right-[-26%] top-[calc(50%+220px)] hidden aspect-[2291/1346] -translate-y-1/2 lg:block xl:left-[-34.79%] xl:right-[-34.79%] xl:top-[calc(50%+245px)]">
-          <Image
-            src={heroImage}
-            alt=""
-            fill
-            priority
-            sizes="(min-width: 1280px) 170vw, (min-width: 1024px) 152vw, 140vw"
-            className="object-cover"
-            style={{ objectPosition: "55% center" }}
+            sizes="100vw"
+            className="object-cover object-center"
           />
         </div>
 
