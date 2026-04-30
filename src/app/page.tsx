@@ -432,6 +432,94 @@ function NewsSection() {
   );
 }
 
+function FooterSection() {
+  return (
+    <footer
+      id="contact"
+      className="relative h-[493px] overflow-hidden bg-black px-4 pt-12 text-white xl:h-[514px] xl:px-8"
+    >
+      <div className="flex w-full flex-col items-start gap-6 xl:gap-12">
+        <div className="flex w-full flex-col items-start justify-center gap-4 xl:flex-row xl:items-start xl:justify-between">
+          <div className="flex w-[298px] flex-col items-start gap-3">
+            <p className="min-w-full text-2xl font-light italic uppercase leading-[1.1] tracking-[-0.04em]">
+              Have a{" "}
+              <span className="font-black not-italic">project</span> in mind?
+            </p>
+            <button className="rounded-[24px] border border-white px-4 py-3 text-sm font-medium leading-[normal] tracking-[-0.04em] text-white">
+              Let&apos;s talk
+            </button>
+          </div>
+
+          <div className="hidden w-[298px] text-center text-[18px] font-normal uppercase leading-[1.1] tracking-[-0.04em] xl:block">
+            <p>Facebook</p>
+            <p>Instagram</p>
+          </div>
+
+          <div className="hidden w-[298px] text-right text-[18px] font-normal uppercase leading-[1.1] tracking-[-0.04em] xl:block">
+            <p>x.com</p>
+            <p>Linkedin</p>
+          </div>
+
+          <nav
+            aria-label="Social links"
+            className="flex w-[298px] flex-col items-start gap-4 text-[18px] font-normal uppercase leading-[1.1] tracking-[-0.04em] xl:hidden"
+          >
+            {["Facebook", "Instagram", "x.com", "Linkedin"].map((item) => (
+              <a key={item} href="#contact">
+                {item}
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        <div className="h-px w-full bg-white" />
+      </div>
+
+      <div className="absolute bottom-0 left-4 right-4 flex h-[150px] flex-col items-center gap-4 whitespace-nowrap xl:hidden">
+        <div className="flex items-center gap-[34px] pb-8 text-center text-xs font-normal uppercase leading-[1.1] tracking-[-0.04em]">
+          <a href="#contact" className="underline">
+            licences
+          </a>
+          <a href="#contact" className="underline">
+            Privacy policy
+          </a>
+        </div>
+
+        <div className="flex w-full flex-col items-start gap-3 overflow-hidden">
+          <p className="font-mono text-[10px] font-normal uppercase leading-[1.1]">
+            [ Coded By Claude ]
+          </p>
+          <p className="text-[91.425px] font-semibold capitalize leading-[0.8] tracking-[-5.4855px]">
+            H.Studio
+          </p>
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 left-8 right-8 hidden h-[219px] items-end justify-between xl:flex">
+        <div className="relative h-[219px] w-[1093px] shrink-0 overflow-hidden">
+          <p className="absolute left-[5px] top-0 text-[290px] font-semibold capitalize leading-[0.8] tracking-[-17.4px]">
+            H.Studio
+          </p>
+          <div className="absolute left-[-5px] top-[70px] flex h-[160px] w-[15px] items-center justify-center">
+            <p className="-rotate-90 font-mono text-sm font-normal uppercase leading-[1.1]">
+              [ Coded By Claude ]
+            </p>
+          </div>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-[34px] pb-8 text-center text-xs font-normal uppercase leading-[1.1] tracking-[-0.04em]">
+          <a href="#contact" className="underline">
+            licences
+          </a>
+          <a href="#contact" className="underline">
+            Privacy policy
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -844,6 +932,7 @@ export default function Home() {
 
       <TestimonialsSection />
       <NewsSection />
+      <FooterSection />
     </main>
   );
 }
