@@ -10,6 +10,24 @@ const cameraSectionImage = "/camera-section.png";
 
 const navLinks = ["About", "Services", "Projects", "News", "Contact"];
 
+const newsItems = [
+  {
+    image: "/news-maker-space.png",
+    alt: "Crowd walking through an exhibition hall with Maker Space signage",
+  },
+  {
+    image: "/news-eames-book.png",
+    alt: "Eames design book on a wooden table beside patterned leaves",
+  },
+  {
+    image: "/news-bookshelf.png",
+    alt: "Colorful books lined up on a shelf",
+  },
+];
+
+const newsDescription =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+
 const serviceDescriptionDesktop =
   "Placeholder description of this service. Explain the value you provide and the outcomes clients can expect. Keep it to two or three sentences.";
 
@@ -75,6 +93,41 @@ const portfolioProjects = [
 const aboutDetailCopy =
   "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
 
+const testimonials = {
+  marko: {
+    quote:
+      "A brilliant creative partner who transformed our vision into a unique, high-impact brand identity. Their ability to craft everything from custom mascots to polished logos is truly impressive.",
+    name: "Marko Stojković",
+    logo: "/testimonial-logo-marko.svg",
+    logoWidth: 142.749,
+    logoHeight: 18.97,
+  },
+  lukas: {
+    quote:
+      "Professional, precise, and incredibly fast at handling complex product visualizations and templates.",
+    name: "Lukas Weber",
+    logo: "/testimonial-logo-lukas.svg",
+    logoWidth: 137.733,
+    logoHeight: 19.263,
+  },
+  sarah: {
+    quote:
+      "A strategic partner who balances stunning aesthetics with high-performance UX for complex platforms. They don’t just make things look good; they solve business problems through visual clarity.",
+    name: "Sarah Jenkins",
+    logo: "/testimonial-logo-sarah.svg",
+    logoWidth: 108.537,
+    logoHeight: 30.748,
+  },
+  sofia: {
+    quote:
+      "An incredibly versatile designer who delivers consistent quality across a wide range of styles and formats.",
+    name: "Sofia Martínez",
+    logo: "/testimonial-logo-sofia.svg",
+    logoWidth: 81.1,
+    logoHeight: 36.174,
+  },
+};
+
 function ArrowUpRightIcon() {
   return (
     <svg
@@ -89,6 +142,27 @@ function ArrowUpRightIcon() {
         d="M11 21L21 11M14 11H21V18"
         stroke="currentColor"
         strokeWidth="2.4"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      />
+    </svg>
+  );
+}
+
+function ReadMoreArrowIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="18"
+      height="18"
+      viewBox="0 0 18 18"
+      fill="none"
+      className="block"
+    >
+      <path
+        d="M6.25 11.75L11.75 6.25M7.5 6.25H11.75V10.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
         strokeLinecap="square"
         strokeLinejoin="miter"
       />
@@ -173,6 +247,188 @@ function PortfolioCta({ className = "" }: { className?: string }) {
       </div>
       <div className="w-6 shrink-0 self-stretch" />
     </div>
+  );
+}
+
+function TestimonialCard({
+  testimonial,
+  className = "",
+  logoClassName = "",
+}: {
+  testimonial: (typeof testimonials)[keyof typeof testimonials];
+  className?: string;
+  logoClassName?: string;
+}) {
+  return (
+    <article
+      className={`flex flex-col items-start gap-4 rounded bg-[#f1f1f1] p-6 text-[#1f1f1f] ring-1 ring-[#ddd] ${className}`}
+    >
+      <span
+        aria-hidden="true"
+        style={{
+          width: testimonial.logoWidth,
+          height: testimonial.logoHeight,
+          backgroundImage: `url(${testimonial.logo})`,
+        }}
+        className={`block shrink-0 bg-[length:100%_100%] bg-no-repeat ${logoClassName}`}
+      />
+      <p className="w-full text-[18px] font-normal leading-[1.3] tracking-[-0.04em]">
+        {testimonial.quote}
+      </p>
+      <p className="whitespace-nowrap text-base font-black uppercase leading-[1.1] tracking-[-0.04em] text-black">
+        {testimonial.name}
+      </p>
+    </article>
+  );
+}
+
+function TestimonialsSection() {
+  return (
+    <section className="relative h-[527.259px] overflow-hidden bg-[#f7f7f7] px-4 py-16 text-black lg:h-[987px] lg:px-8 lg:py-[120px]">
+      <div className="relative mx-auto h-full w-full max-w-[1376px] lg:static">
+        <h2 className="flex w-full justify-center text-center font-sans text-[64px] font-medium capitalize leading-[0.8] tracking-[-0.07em] lg:absolute lg:left-8 lg:right-8 lg:top-[384.5px] lg:text-[198px] lg:leading-[1.1]">
+          Testimonials
+        </h2>
+
+        <div className="mt-8 flex w-[1020px] items-center pr-[10px] lg:hidden">
+          <div className="mr-[-10px] flex h-[316.259px] w-[277.445px] shrink-0 items-center justify-center">
+            <div className="rotate-[-3.5deg]">
+              <TestimonialCard
+                testimonial={testimonials.marko}
+                className="w-[259.555px]"
+                logoClassName="w-[142.749px]"
+              />
+            </div>
+          </div>
+
+          <div className="mr-[-10px] flex h-[263.646px] w-[268.287px] shrink-0 items-center justify-center">
+            <div className="rotate-2">
+              <TestimonialCard
+                testimonial={testimonials.sofia}
+                className="w-[259.555px]"
+                logoClassName="w-[81.1px] rotate-[-4deg]"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden lg:block">
+          <div className="absolute left-[102.02px] top-[142.02px] flex h-[295.234px] w-[380.876px] items-center justify-center">
+            <div className="rotate-[-6.85deg]">
+              <TestimonialCard
+                testimonial={testimonials.marko}
+                className="w-[353px]"
+                logoClassName="w-[142.749px]"
+              />
+            </div>
+          </div>
+
+          <div className="absolute left-[676px] top-[272px] flex h-[203.867px] w-[361.958px] items-center justify-center">
+            <div className="rotate-[2.9deg]">
+              <TestimonialCard
+                testimonial={testimonials.lukas}
+                className="w-[353px]"
+                logoClassName="w-[137.733px]"
+              />
+            </div>
+          </div>
+
+          <div className="absolute left-[305px] top-[553px] flex h-[280.316px] w-[363.132px] items-center justify-center">
+            <div className="rotate-[2.23deg]">
+              <TestimonialCard
+                testimonial={testimonials.sarah}
+                className="w-[353px]"
+                logoClassName="w-[108.537px]"
+              />
+            </div>
+          </div>
+
+          <div className="absolute left-[987px] top-[546px] flex h-[228.169px] w-[366.766px] items-center justify-center">
+            <div className="rotate-[-4.15deg]">
+              <TestimonialCard
+                testimonial={testimonials.sofia}
+                className="w-[353px]"
+                logoClassName="w-[81.1px]"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function NewsCard({
+  item,
+  className = "",
+}: {
+  item: (typeof newsItems)[number];
+  className?: string;
+}) {
+  return (
+    <article
+      className={`flex w-[300px] shrink-0 flex-col items-start gap-4 xl:w-[353px] ${className}`}
+    >
+      <div className="relative h-[398px] w-full shrink-0 overflow-hidden xl:h-[469px]">
+        <Image
+          src={item.image}
+          alt={item.alt}
+          fill
+          sizes="(min-width: 1280px) 353px, 300px"
+          className="object-cover object-center"
+        />
+      </div>
+
+      <p className="w-full text-sm font-normal leading-[1.3] tracking-[-0.04em] text-[#1f1f1f]">
+        {newsDescription}
+      </p>
+
+      <a
+        href="#news"
+        className="flex h-[26px] items-center justify-center gap-[10px] border-b border-black py-1 text-sm font-medium leading-none tracking-[-0.04em] text-black"
+      >
+        <span>Read more</span>
+        <ReadMoreArrowIcon />
+      </a>
+    </article>
+  );
+}
+
+function NewsSection() {
+  return (
+    <section
+      id="news"
+      className="overflow-hidden bg-[#f3f3f3] px-4 py-16 text-black xl:h-[946px] xl:px-8 xl:py-[120px]"
+    >
+      <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-8 xl:h-[706px] xl:flex-row xl:items-end xl:justify-between xl:gap-0">
+        <div className="flex w-full flex-col justify-center xl:h-[706px] xl:w-[110px] xl:shrink-0 xl:items-center">
+          <h2 className="w-full text-[32px] font-light uppercase leading-[0.86] tracking-[-0.08em] text-black xl:w-[706px] xl:-rotate-90 xl:text-[64px]">
+            Keep up with my latest news &amp; achievements
+          </h2>
+        </div>
+
+        <div className="w-full overflow-visible xl:w-[1020px] xl:shrink-0 xl:self-start xl:pt-[5px]">
+          <div className="flex w-[1020px] items-start gap-4 xl:w-[1185px] xl:gap-0">
+            <NewsCard item={newsItems[0]} className="xl:h-[581px]" />
+
+            <div className="hidden h-[701px] w-[63px] shrink-0 items-center justify-center xl:flex">
+              <div className="h-full w-px bg-black/10" />
+            </div>
+
+            <NewsCard
+              item={newsItems[1]}
+              className="xl:h-[701px] xl:pt-[120px]"
+            />
+
+            <div className="hidden h-[701px] w-[63px] shrink-0 items-center justify-center xl:flex">
+              <div className="h-full w-px bg-black/10" />
+            </div>
+
+            <NewsCard item={newsItems[2]} className="xl:h-[581px]" />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -585,6 +841,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <TestimonialsSection />
+      <NewsSection />
     </main>
   );
 }
