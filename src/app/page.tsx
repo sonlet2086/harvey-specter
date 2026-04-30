@@ -44,8 +44,137 @@ const services = [
   },
 ];
 
+const portfolioProjects = [
+  {
+    title: "Surfers paradise",
+    image: "/project-surfers.png",
+    alt: "Yellow surfboard standing in sand at a beach",
+    imageHeightClassName: "h-[390px] md:h-[744px]",
+    imageClassName: "object-left",
+  },
+  {
+    title: "Cyberpunk caffe",
+    image: "/project-cyberpunk.png",
+    alt: "Portrait lit in red and blue with neon glasses",
+    imageHeightClassName: "h-[390px] md:h-[699px]",
+  },
+  {
+    title: "Agency 976",
+    image: "/project-agency.png",
+    alt: "Dark portrait with bright green neon glasses",
+    imageHeightClassName: "h-[390px] md:h-[699px]",
+  },
+  {
+    title: "Minimal Playground",
+    image: "/project-minimal.png",
+    alt: "Modern white building facade with balconies",
+    imageHeightClassName: "h-[390px] md:h-[744px]",
+  },
+];
+
 const aboutDetailCopy =
   "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
+
+function ArrowUpRightIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      className="block"
+    >
+      <path
+        d="M11 21L21 11M14 11H21V18"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="square"
+        strokeLinejoin="miter"
+      />
+    </svg>
+  );
+}
+
+function CornerFrame({ className = "" }: { className?: string }) {
+  return (
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none absolute inset-0 ${className}`}
+    >
+      <span className="absolute left-0 top-0 size-4 border-l border-t border-[#1f1f1f]" />
+      <span className="absolute bottom-0 left-0 size-4 border-b border-l border-[#1f1f1f]" />
+      <span className="absolute right-0 top-0 size-4 border-r border-t border-[#1f1f1f]" />
+      <span className="absolute bottom-0 right-0 size-4 border-b border-r border-[#1f1f1f]" />
+    </div>
+  );
+}
+
+function PortfolioCard({
+  project,
+}: {
+  project: (typeof portfolioProjects)[number];
+}) {
+  return (
+    <article className="flex w-full flex-col items-start gap-[10px]">
+      <div
+        className={`relative w-full overflow-hidden ${project.imageHeightClassName}`}
+      >
+        <Image
+          src={project.image}
+          alt={project.alt}
+          fill
+          sizes="(min-width: 1280px) 676px, (min-width: 768px) 676px, calc(100vw - 32px)"
+          className={`object-cover ${project.imageClassName ?? "object-center"}`}
+        />
+
+        <div className="absolute bottom-4 left-4 z-10 flex items-center gap-3">
+          {["Social Media", "Photography"].map((tag) => (
+            <span
+              key={tag}
+              className="rounded-[24px] bg-white/30 px-2 py-1 text-sm font-medium leading-[normal] tracking-[-0.04em] text-[#111] backdrop-blur-[10px]"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex h-8 w-full items-center justify-between xl:h-10">
+        <h3 className="whitespace-nowrap font-sans text-2xl font-black uppercase leading-[1.1] tracking-[-0.04em] text-black xl:text-4xl">
+          {project.title}
+        </h3>
+        <button
+          className="flex size-8 shrink-0 items-center justify-center text-black"
+          aria-label={`Open ${project.title}`}
+        >
+          <ArrowUpRightIcon />
+        </button>
+      </div>
+    </article>
+  );
+}
+
+function PortfolioCta({ className = "" }: { className?: string }) {
+  return (
+    <div
+      className={`relative flex w-full items-center justify-center gap-3 py-0 xl:w-[465px] ${className}`}
+    >
+      <CornerFrame />
+      <div className="w-6 shrink-0 self-stretch" />
+      <div className="flex min-w-0 flex-1 flex-col items-start justify-center gap-[10px] py-3">
+        <p className="w-full text-sm font-normal italic leading-[1.3] tracking-[-0.04em] text-[#1f1f1f]">
+          Discover how my creativity transforms ideas into impactful digital
+          experiences — schedule a call with me to get started.
+        </p>
+        <button className="rounded-[24px] bg-black px-4 py-3 text-sm font-medium leading-[normal] tracking-[-0.04em] text-white">
+          Let&apos;s talk
+        </button>
+      </div>
+      <div className="w-6 shrink-0 self-stretch" />
+    </div>
+  );
+}
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -403,6 +532,56 @@ export default function Home() {
                 </div>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="projects"
+        className="bg-[#f7f7f7] px-4 py-12 text-black xl:px-8 xl:py-20"
+      >
+        <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-8 xl:gap-[61px]">
+          <div className="flex w-full flex-col items-start gap-4 uppercase xl:h-[166px] xl:flex-row xl:items-start xl:justify-between xl:gap-0">
+            <p className="font-mono text-sm leading-[1.1] text-[#1f1f1f] xl:hidden">
+              [ Portfolio ]
+            </p>
+
+            <div className="flex w-full items-start justify-between xl:w-[467px] xl:justify-start xl:gap-[10px]">
+              <h2 className="font-sans text-[32px] font-light leading-[0.86] tracking-[-0.08em] text-black xl:text-[96px]">
+                Selected
+                <br />
+                Work
+              </h2>
+              <p className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
+                004
+              </p>
+            </div>
+
+            <div className="hidden h-[110px] w-[15px] items-center justify-center xl:flex">
+              <p className="-rotate-90 font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
+                [ Portfolio ]
+              </p>
+            </div>
+          </div>
+
+          <div className="flex w-full max-w-[676px] flex-col items-start gap-6 xl:hidden">
+            {portfolioProjects.map((project) => (
+              <PortfolioCard key={project.title} project={project} />
+            ))}
+            <PortfolioCta className="h-[129px]" />
+          </div>
+
+          <div className="hidden w-full gap-6 xl:flex">
+            <div className="flex h-[1900px] min-w-0 flex-1 flex-col items-start justify-between">
+              <PortfolioCard project={portfolioProjects[0]} />
+              <PortfolioCard project={portfolioProjects[1]} />
+              <PortfolioCta className="h-[111px]" />
+            </div>
+
+            <div className="flex min-w-0 flex-1 flex-col items-start gap-[117px] pt-60">
+              <PortfolioCard project={portfolioProjects[2]} />
+              <PortfolioCard project={portfolioProjects[3]} />
+            </div>
           </div>
         </div>
       </section>
