@@ -566,7 +566,9 @@ function FooterSection() {
 
 export default async function Home() {
   const sanityProjects = await client.fetch<SanityPortfolioProject[]>(
-    PORTFOLIO_PROJECTS_QUERY
+    PORTFOLIO_PROJECTS_QUERY,
+    {},
+    { cache: "no-store" }
   );
 
   const portfolioProjects: DisplayProject[] = sanityProjects.map((p) => {
