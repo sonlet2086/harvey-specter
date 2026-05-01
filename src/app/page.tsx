@@ -1,7 +1,6 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
+import { client } from "@/sanity/client";
+import { MobileMenu } from "./mobile-menu";
 
 const heroDesktopImage = "/harvey-background-highres.jpg";
 const heroMobileImage = "/harvey-background-highres.jpg";
@@ -62,33 +61,42 @@ const services = [
   },
 ];
 
-const portfolioProjects = [
+const fallbackPortfolio = [
   {
-    title: "Surfers paradise",
     image: "/project-surfers.png",
     alt: "Yellow surfboard standing in sand at a beach",
     imageHeightClassName: "h-[390px] md:h-[744px]",
-    imageClassName: "object-left",
+    objectPosition: "left",
   },
   {
-    title: "Cyberpunk caffe",
     image: "/project-cyberpunk.png",
     alt: "Portrait lit in red and blue with neon glasses",
     imageHeightClassName: "h-[390px] md:h-[699px]",
+    objectPosition: "center",
   },
   {
-    title: "Agency 976",
     image: "/project-agency.png",
     alt: "Dark portrait with bright green neon glasses",
     imageHeightClassName: "h-[390px] md:h-[699px]",
+    objectPosition: "center",
   },
   {
-    title: "Minimal Playground",
     image: "/project-minimal.png",
     alt: "Modern white building facade with balconies",
     imageHeightClassName: "h-[390px] md:h-[744px]",
+    objectPosition: "center",
   },
 ];
+
+type DisplayProject = {
+  _id: string;
+  title: string;
+  tags: string[];
+  image: string;
+  alt: string;
+  imageHeightClassName: string;
+  objectPosition: string;
+};
 
 const aboutDetailCopy =
   "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
@@ -184,11 +192,7 @@ function CornerFrame({ className = "" }: { className?: string }) {
   );
 }
 
-function PortfolioCard({
-  project,
-}: {
-  project: (typeof portfolioProjects)[number];
-}) {
+function PortfolioCard({ project }: { project: DisplayProject }) {
   return (
     <article className="flex w-full flex-col items-start gap-[10px]">
       <div
@@ -199,19 +203,22 @@ function PortfolioCard({
           alt={project.alt}
           fill
           sizes="(min-width: 1280px) 676px, (min-width: 768px) 676px, calc(100vw - 32px)"
-          className={`object-cover ${project.imageClassName ?? "object-center"}`}
+          className="object-cover"
+          style={{ objectPosition: project.objectPosition }}
         />
 
-        <div className="absolute bottom-4 left-4 z-10 flex items-center gap-3">
-          {["Social Media", "Photography"].map((tag) => (
-            <span
-              key={tag}
-              className="rounded-[24px] bg-white/30 px-2 py-1 text-sm font-medium leading-[normal] tracking-[-0.04em] text-[#111] backdrop-blur-[10px]"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
+        {project.tags.length > 0 && (
+          <div className="absolute bottom-4 left-4 z-10 flex items-center gap-3">
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-[24px] bg-white/30 px-2 py-1 text-sm font-medium leading-[normal] tracking-[-0.04em] text-[#111] backdrop-blur-[10px]"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex h-8 w-full items-center justify-between xl:h-10">
@@ -520,50 +527,32 @@ function FooterSection() {
   );
 }
 
-export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
+export default async function Home() {
+  const sanityProjects = await client.fetch<Array<{
+    _id: string;
+    title: string;
+    tags: string[];
+    objectPosition: string;
+    coverImage?: { asset: { url: string }; alt?: string };
+  }>>(
+    `*[_type == "portfolioProject"] | order(order asc) {
+      _id, title, tags, objectPosition,
+      coverImage { asset->{ url }, alt }
+    }`
+  );
+
+  const portfolioProjects: DisplayProject[] = sanityProjects.map((p, i) => ({
+    _id: p._id,
+    title: p.title,
+    tags: p.tags ?? [],
+    image: p.coverImage?.asset?.url ?? fallbackPortfolio[i]?.image ?? "",
+    alt: p.coverImage?.alt ?? fallbackPortfolio[i]?.alt ?? p.title,
+    imageHeightClassName: fallbackPortfolio[i]?.imageHeightClassName ?? "h-[390px] md:h-[699px]",
+    objectPosition: p.objectPosition ?? fallbackPortfolio[i]?.objectPosition ?? "center",
+  }));
 
   return (
     <main>
-      {/* Mobile full-screen menu overlay */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 bg-black flex flex-col px-8 py-8 md:hidden">
-          <div className="flex items-center justify-between shrink-0">
-            <span className="text-white text-base font-semibold capitalize tracking-[-0.04em]">
-              H.Studio
-            </span>
-            <button onClick={() => setMenuOpen(false)} aria-label="Close menu">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path
-                  d="M6 6L18 18M18 6L6 18"
-                  stroke="white"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </button>
-          </div>
-          <nav className="flex flex-col gap-8 mt-16 flex-1">
-            {navLinks.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setMenuOpen(false)}
-                className="text-white text-4xl font-semibold capitalize tracking-[-0.04em]"
-              >
-                {item}
-              </a>
-            ))}
-          </nav>
-          <button
-            className="border border-white text-white text-sm font-medium tracking-[-0.04em] px-4 py-3 rounded-full self-start"
-            onClick={() => setMenuOpen(false)}
-          >
-            Let&apos;s talk
-          </button>
-        </div>
-      )}
-
       <section className="relative h-svh overflow-hidden bg-[#c2ccd1] lg:h-[847px]">
         <div className="absolute left-0 right-[-39.47%] top-[calc(50%-14px)] h-[847px] -translate-y-1/2 lg:hidden">
           <Image
@@ -615,25 +604,7 @@ export default function Home() {
             </div>
 
             {/* Mobile hamburger */}
-            <button
-              className="lg:hidden"
-              aria-label="Open menu"
-              onClick={() => setMenuOpen(true)}
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M3 6H21M3 12H21M3 18H21"
-                  stroke="#111111"
-                  strokeWidth="2"
-                />
-              </svg>
-            </button>
+            <MobileMenu />
 
             {/* Desktop CTA */}
             <button className="hidden lg:flex items-center justify-center bg-black text-white text-sm font-medium tracking-[-0.04em] px-4 py-3 rounded-full cursor-pointer">
@@ -910,7 +881,7 @@ export default function Home() {
 
           <div className="flex w-full max-w-[676px] flex-col items-start gap-6 xl:hidden">
             {portfolioProjects.map((project) => (
-              <PortfolioCard key={project.title} project={project} />
+              <PortfolioCard key={project._id} project={project} />
             ))}
             <PortfolioCta className="h-[129px]" />
           </div>

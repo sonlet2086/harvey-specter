@@ -17,3 +17,13 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+.portfolio-img-wrap {
+  height: var(--h-mobile, 390px);
+}
+
+@media (min-width: 768px) {
+  .portfolio-img-wrap {
+    height: var(--h-desktop, 699px);
+  }
+}
