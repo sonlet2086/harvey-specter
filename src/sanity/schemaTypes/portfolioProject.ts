@@ -8,10 +8,10 @@ export const portfolioProject = defineType({
   icon: FolderIcon,
   fields: [
     defineField({
-      name: "order",
-      title: "Order",
-      type: "number",
-      validation: (rule) => rule.required().integer().positive(),
+      name: "coverImage",
+      title: "Cover Image",
+      type: "image",
+      options: { hotspot: true },
     }),
     defineField({
       name: "title",
@@ -20,39 +20,24 @@ export const portfolioProject = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title" },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "alt",
+      title: "Alt text",
+      type: "string",
+      description: "Describe the image for screen readers and SEO",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "tags",
       title: "Tags",
       type: "array",
       of: [{ type: "string" }],
-      description: "e.g. Photography, Social Media, Branding",
     }),
-    defineField({
-      name: "coverImage",
-      title: "Cover Image",
-      type: "image",
-      options: { hotspot: true },
-      fields: [
-        defineField({
-          name: "alt",
-          title: "Alt text",
-          type: "string",
-          validation: (rule) => rule.required(),
-        }),
-      ],
-    }),
-    defineField({
-      name: "objectPosition",
-      title: "Image object position",
-      type: "string",
-      description: "CSS object-position — e.g. 'center', 'left', 'top', '50% 20%'",
-      initialValue: "center",
-    }),
-  ],
-  orderings: [
-    {
-      title: "Display order",
-      name: "orderAsc",
-      by: [{ field: "order", direction: "asc" }],
-    },
   ],
 });

@@ -531,13 +531,14 @@ export default async function Home() {
   const sanityProjects = await client.fetch<Array<{
     _id: string;
     title: string;
+    slug: { current: string };
+    alt: string;
     tags: string[];
-    objectPosition: string;
-    coverImage?: { asset: { url: string }; alt?: string };
+    coverImage?: { asset: { url: string } };
   }>>(
-    `*[_type == "portfolioProject"] | order(order asc) {
-      _id, title, tags, objectPosition,
-      coverImage { asset->{ url }, alt }
+    `*[_type == "portfolioProject"] | order(_createdAt asc) {
+      _id, title, slug, alt, tags,
+      coverImage { asset->{ url } }
     }`
   );
 
@@ -546,9 +547,9 @@ export default async function Home() {
     title: p.title,
     tags: p.tags ?? [],
     image: p.coverImage?.asset?.url ?? fallbackPortfolio[i]?.image ?? "",
-    alt: p.coverImage?.alt ?? fallbackPortfolio[i]?.alt ?? p.title,
+    alt: p.alt ?? fallbackPortfolio[i]?.alt ?? p.title,
     imageHeightClassName: fallbackPortfolio[i]?.imageHeightClassName ?? "h-[390px] md:h-[699px]",
-    objectPosition: p.objectPosition ?? fallbackPortfolio[i]?.objectPosition ?? "center",
+    objectPosition: fallbackPortfolio[i]?.objectPosition ?? "center",
   }));
 
   return (
