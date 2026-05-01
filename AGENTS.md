@@ -12,25 +12,58 @@ Before editing:
 
 - Use the exact Figma node URLs supplied by the user for each breakpoint or frame.
 - Pull measured Figma data for structure, dimensions, coordinates, typography, fills, assets, and screenshots before writing code.
-- Identify the target frame sizes, usually the supplied desktop and mobile widths, and infer responsive behavior for widths between them.
-- Read the existing implementation patterns first so the Figma design is adapted into this project’s Next.js, Tailwind, typography, image, and layout conventions instead of pasted as generic generated code.
+- Identify the target frame sizes (typically supplied desktop and mobile) and infer responsive behavior between them.
+- Read and understand existing implementation patterns so Figma is adapted into this project’s Next.js, Tailwind, typography, image, and layout conventions.
+- Confirm understanding of layout structure, hierarchy, and key elements before implementation.
 
 Implementation expectations:
 
-- Match section height, background, side padding, top and bottom padding, max content width, grid or flex geometry, gaps, dividers, and absolute offsets.
-- Match text content, casing, alignment, weight, font family, size, line height, tracking, wrapping, and visual baselines.
-- Match asset selection, image dimensions, aspect ratios, crops, object position, masking, clipping, opacity, blur, and stacking order.
-- Preserve intentional Figma overflow, horizontal rails, clipped content, rotated labels, and art-directed offsets when they are part of the design.
-- Use responsive constraints such as breakpoint-specific rules, `clamp()`, percentages, max widths, fixed aspect ratios, and overflow behavior so layouts scale cleanly from desktop to mobile.
-- Avoid introducing unrelated redesigns, generic card treatments, decorative effects, or new abstractions unless they are required by the design or already established in the project.
+- Match section height, background, padding, max content width, layout geometry, spacing, and positioning exactly.
+- Match text content, alignment, font, size, weight, line height, tracking, and wrapping.
+- Match assets, image dimensions, aspect ratios, crops, and stacking order.
+- Preserve intentional overflow, clipping, offsets, and art direction from Figma.
+- Use responsive constraints (breakpoints, clamp, %, max widths, aspect ratios) so layouts scale cleanly.
+- Do not introduce redesigns, new patterns, or stylistic changes not present in Figma or required by the project.
 
 Verification expectations:
 
-- Run the relevant type/build checks that are practical for the change.
-- Verify the rendered page in a browser, not only by reading code.
-- Capture and inspect screenshots at the supplied desktop width, the supplied mobile width, and intermediate widths such as 1024px and 768px.
-- Patch visible drift in spacing, alignment, type, image crop, overflow, and section transitions before finishing.
+- Run relevant build/type checks where applicable.
+- Verify in a browser, not just in code.
+- Check at desktop, mobile, and intermediate breakpoints (e.g., 1024px, 768px).
+- Fix all visible drift in spacing, alignment, typography, and layout before finishing.
 - Do not mark a task complete until the implementation visually matches Figma or all differences are clearly listed.
-- Report the Figma nodes used, viewports checked, files changed, validation results, and any known divergence from Figma.
+- Report Figma nodes used, viewports checked, files changed, and any known deviations.
 
-If tooling, authentication, network access, or missing assets prevent full verification, state the blocker clearly and still complete every fidelity check that is possible locally.
+If full verification is blocked (assets, auth, tooling), state the blocker and complete all possible checks.
+
+---
+
+## UX/UI decision standard
+
+Applies to all UI work (pages, sections, components, responsive behavior, interactions, CMS views, and Figma implementations).
+
+Design decisions must prioritize usability, clarity, and established UX principles over visual appeal.
+
+Always:
+
+- Maintain clear hierarchy: primary > secondary > tertiary actions.
+- Place primary CTAs in expected, high-visibility locations.
+- Ensure layout and spacing support readability and scan patterns.
+- Follow UX heuristics: consistency, visibility, affordance, feedback.
+- Match Figma intent unless a clear UX issue is identified.
+
+Before implementing:
+
+- Explain hierarchy and CTA placement.
+- Justify layout decisions based on usability.
+- Do not begin coding until the explanation is complete and logically sound.
+
+Do not:
+
+- Change layout or hierarchy for visual preference alone.
+- Introduce new patterns or styling not present in Figma.
+- Prioritize aesthetics over usability.
+
+Completion requirement:
+
+- If any UX tradeoff is made, explicitly state it and why.

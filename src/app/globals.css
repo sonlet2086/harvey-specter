@@ -24,6 +24,12 @@ body {
 
 @media (min-width: 768px) {
   .portfolio-img-wrap {
+    height: clamp(380px, 52vw, 560px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .portfolio-img-wrap {
     height: var(--h-desktop, 699px);
   }
 }

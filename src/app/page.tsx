@@ -3,9 +3,10 @@ import type { CSSProperties } from "react";
 import { client } from "@/sanity/client";
 import { PORTFOLIO_PROJECTS_QUERY } from "@/sanity/queries";
 import { MobileMenu } from "./mobile-menu";
+import { NewsMobileSlider } from "./news-mobile-slider";
+import { TestimonialMobileSlider } from "./testimonial-mobile-slider";
 
 const heroDesktopImage = "/harvey-background-highres.jpg";
-const heroMobileImage = "/harvey-background-highres.jpg";
 const aboutPortraitImage = "/about-portrait.png";
 const cameraSectionImage = "/camera-section.png";
 
@@ -239,7 +240,7 @@ function PortfolioCard({ project }: { project: DisplayProject }) {
           src={project.image}
           alt={project.alt}
           fill
-          sizes="(min-width: 1280px) 676px, (min-width: 768px) 676px, calc(100vw - 32px)"
+          sizes="(min-width: 1280px) 676px, (min-width: 768px) calc((100vw - 56px) / 2), calc(100vw - 32px)"
           className="object-cover"
           style={{ objectPosition: project.objectPosition }}
         />
@@ -327,36 +328,60 @@ function TestimonialCard({
 }
 
 function TestimonialsSection() {
+  const testimonialRailCards = [
+    {
+      key: "marko",
+      testimonial: testimonials.marko,
+      rotateClassName: "rotate-[-3.5deg]",
+      logoClassName: "w-[142.749px]",
+    },
+    {
+      key: "sofia",
+      testimonial: testimonials.sofia,
+      rotateClassName: "rotate-2",
+      logoClassName: "w-[81.1px] rotate-[-4deg]",
+    },
+    {
+      key: "lukas",
+      testimonial: testimonials.lukas,
+      rotateClassName: "rotate-[2.9deg]",
+      logoClassName: "w-[137.733px]",
+    },
+    {
+      key: "sarah",
+      testimonial: testimonials.sarah,
+      rotateClassName: "rotate-[2.23deg]",
+      logoClassName: "w-[108.537px]",
+    },
+  ];
+
   return (
-    <section className="relative h-[527.259px] overflow-hidden bg-[#f7f7f7] px-4 py-16 text-black lg:h-[987px] lg:px-8 lg:py-[120px]">
-      <div className="relative mx-auto h-full w-full max-w-[1376px] lg:static">
-        <h2 className="flex w-full justify-center text-center font-sans text-[64px] font-medium capitalize leading-[0.8] tracking-[-0.07em] lg:absolute lg:left-8 lg:right-8 lg:top-[384.5px] lg:text-[198px] lg:leading-[1.1]">
+    <section className="relative h-auto min-h-[527.259px] overflow-hidden bg-[#f7f7f7] px-4 py-16 text-black xl:h-[987px] xl:px-8 xl:py-[120px]">
+      <div className="relative mx-auto h-full w-full max-w-[1376px] xl:static">
+        <h2 className="flex w-full justify-center text-center font-sans text-[64px] font-medium capitalize leading-[0.8] tracking-[-0.07em] xl:absolute xl:left-8 xl:right-8 xl:top-[384.5px] xl:text-[198px] xl:leading-[1.1]">
           Testimonials
         </h2>
 
-        <div className="mt-8 flex w-[1020px] items-center pr-[10px] lg:hidden">
-          <div className="mr-[-10px] flex h-[316.259px] w-[277.445px] shrink-0 items-center justify-center">
-            <div className="rotate-[-3.5deg]">
-              <TestimonialCard
-                testimonial={testimonials.marko}
-                className="w-[259.555px]"
-                logoClassName="w-[142.749px]"
-              />
-            </div>
-          </div>
+        <TestimonialMobileSlider slides={testimonialRailCards} />
 
-          <div className="mr-[-10px] flex h-[263.646px] w-[268.287px] shrink-0 items-center justify-center">
-            <div className="rotate-2">
-              <TestimonialCard
-                testimonial={testimonials.sofia}
-                className="w-[259.555px]"
-                logoClassName="w-[81.1px] rotate-[-4deg]"
-              />
+        <div className="mx-auto mt-8 hidden w-max grid-cols-2 items-center justify-items-center gap-x-6 gap-y-8 py-8 md:grid xl:hidden">
+          {testimonialRailCards.map((card) => (
+            <div
+              key={card.key}
+              className="flex h-[316.259px] w-[277.445px] items-center justify-center"
+            >
+              <div className={card.rotateClassName}>
+                <TestimonialCard
+                  testimonial={card.testimonial}
+                  className="w-[259.555px]"
+                  logoClassName={card.logoClassName}
+                />
+              </div>
             </div>
-          </div>
+          ))}
         </div>
 
-        <div className="hidden lg:block">
+        <div className="hidden xl:block">
           <div className="absolute left-[102.02px] top-[142.02px] flex h-[295.234px] w-[380.876px] items-center justify-center">
             <div className="rotate-[-6.85deg]">
               <TestimonialCard
@@ -451,7 +476,9 @@ function NewsSection() {
           </h2>
         </div>
 
-        <div className="w-full overflow-visible xl:w-[1020px] xl:shrink-0 xl:self-start xl:pt-[5px]">
+        <NewsMobileSlider items={newsItems} description={newsDescription} />
+
+        <div className="-mx-4 hidden w-[calc(100%+2rem)] overflow-x-auto overflow-y-hidden px-4 pb-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:block xl:mx-0 xl:w-[1020px] xl:shrink-0 xl:self-start xl:overflow-visible xl:px-0 xl:pb-0 xl:pt-[5px]">
           <div className="flex w-[1020px] items-start gap-4 xl:w-[1185px] xl:gap-0">
             <NewsCard item={newsItems[0]} className="xl:h-[581px]" />
 
@@ -596,31 +623,35 @@ export default async function Home() {
   return (
     <main>
       <section className="relative h-svh overflow-hidden bg-[#c2ccd1] lg:h-[847px]">
-        <div className="absolute left-0 right-[-39.47%] top-[calc(50%-14px)] h-[847px] -translate-y-1/2 lg:hidden">
+        {/* Mobile: Figma-exact — left=0, extends 39.47% past right edge, full height */}
+        <div className="absolute inset-y-0 left-0 lg:hidden" style={{ right: "-39.47%" }}>
           <Image
-            src={heroMobileImage}
+            src={heroDesktopImage}
             alt=""
             fill
             priority
-            sizes="524px"
-            className="object-cover object-center"
+            sizes="140vw"
+            className="object-cover"
           />
         </div>
-        <div className="absolute left-1/2 top-[-205px] hidden h-[1434.67px] w-[2441.92px] -translate-x-1/2 overflow-hidden lg:block">
-          <div className="absolute left-[-8.81%] top-[-7.1%] h-[144.63%] w-[127.45%]">
-            <Image
-              src={heroDesktopImage}
-              alt=""
-              fill
-              priority
-              sizes="3112px"
-              className="object-fill"
-            />
-          </div>
+
+        {/* Desktop: wider-than-viewport container, vertically offset per Figma */}
+        <div
+          className="absolute -translate-y-1/2 aspect-[2291/1346] hidden lg:block"
+          style={{ left: "-32.08%", right: "-37.49%", top: "calc(50% + 134.84px)" }}
+        >
+          <Image
+            src={heroDesktopImage}
+            alt=""
+            fill
+            priority
+            sizes="170vw"
+            className="object-cover object-top"
+          />
         </div>
 
         <div
-          className="absolute bottom-0 left-0 right-0 h-[349px] bg-[rgba(217,217,217,0.01)] backdrop-blur-[10px] lg:bottom-auto lg:top-[498px]"
+          className="absolute bottom-0 left-0 right-0 h-[349px] bg-[rgba(217,217,217,0.01)] backdrop-blur-[10px] lg:h-auto lg:top-[464px]"
           style={{
             WebkitMaskImage:
               "linear-gradient(to bottom, transparent 0%, black 65%)",
@@ -703,20 +734,20 @@ export default async function Home() {
           </div>
 
           <div className="flex w-full flex-col items-center justify-center gap-2 uppercase md:hidden">
-            <div className="flex w-full flex-col items-center justify-center gap-3 whitespace-nowrap">
+            <div className="flex w-full flex-col items-center justify-center gap-3">
               <span className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
                 001
               </span>
-              <h2 className="font-sans text-[32px] font-light leading-[0.84] tracking-[-2.56px]">
+              <h2 className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
                 A creative director <span aria-hidden="true">/</span>
               </h2>
             </div>
 
-            <p className="font-sans text-[32px] font-light leading-[0.84] tracking-[-2.56px]">
+            <p className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
               Photographer
             </p>
 
-            <p className="font-sans text-[32px] font-light leading-[0.84] tracking-[-2.56px]">
+            <p className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
               Born{" "}
               <span className="font-[family-name:var(--font-playfair)] italic normal-case">
                 &amp;
@@ -724,12 +755,12 @@ export default async function Home() {
               raised
             </p>
 
-            <p className="font-sans text-[32px] font-light leading-[0.84] tracking-[-2.56px]">
+            <p className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
               on the south side
             </p>
 
             <div className="flex w-full flex-col items-center justify-center gap-3 whitespace-nowrap">
-              <p className="text-center font-sans text-[32px] font-light leading-[0.84] tracking-[-2.56px]">
+              <p className="text-center font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
                 of chicago.
               </p>
               <p className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
@@ -822,13 +853,13 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="relative h-svh min-h-[565px] overflow-hidden bg-[#111]">
+      <section className="relative h-[70vh] max-h-[565px] overflow-hidden bg-[#111] lg:max-h-none lg:h-svh">
         <Image
           src={cameraSectionImage}
           alt="Photographer looking through a camera outdoors"
           fill
           sizes="100vw"
-          className="object-cover object-[32%_center] md:object-center"
+          className="object-cover object-[32%_50%] lg:object-center"
         />
       </section>
 
@@ -921,11 +952,11 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="flex w-full max-w-[676px] flex-col items-start gap-6 xl:hidden">
+          <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-10 md:grid-cols-2 xl:hidden">
             {portfolioProjects.map((project) => (
               <PortfolioCard key={project._id} project={project} />
             ))}
-            <PortfolioCta className="h-[129px]" />
+            <PortfolioCta className="h-[129px] max-w-[465px] md:col-span-2 md:mt-2" />
           </div>
 
           <div className="hidden w-full gap-6 xl:flex">
