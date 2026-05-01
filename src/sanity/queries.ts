@@ -16,9 +16,11 @@ export const SERVICES_QUERY = defineQuery(
 );
 
 export const PORTFOLIO_PROJECTS_QUERY = defineQuery(
-  `*[_type == "portfolioProject"] | order(order asc) {
-    _id, title, tags, mobileHeight, desktopHeight,
-    image { ${imageFields} }
+  `*[_type == "portfolioProject"] | order(coalesce(order, 999) asc, _createdAt asc) {
+    _id, order, title, slug, tags,
+    "legacyAlt": alt,
+    coverImage { ${imageFields} },
+    "legacyImage": image { ${imageFields} }
   }`
 );
 

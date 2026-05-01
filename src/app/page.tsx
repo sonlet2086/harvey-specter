@@ -1,5 +1,7 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { client } from "@/sanity/client";
+import { PORTFOLIO_PROJECTS_QUERY } from "@/sanity/queries";
 import { MobileMenu } from "./mobile-menu";
 
 const heroDesktopImage = "/harvey-background-highres.jpg";
@@ -61,32 +63,45 @@ const services = [
   },
 ];
 
-const fallbackPortfolio = [
+const fallbackPortfolioBySlug: Record<
+  string,
   {
+    image: string;
+    alt: string;
+    mobileImageHeight: number;
+    desktopImageHeight: number;
+    objectPosition: string;
+  }
+> = {
+  cowabunga: {
     image: "/project-surfers.png",
     alt: "Yellow surfboard standing in sand at a beach",
-    imageHeightClassName: "h-[390px] md:h-[744px]",
+    mobileImageHeight: 390,
+    desktopImageHeight: 744,
     objectPosition: "left",
   },
-  {
+  "cyberpunk-cafe": {
     image: "/project-cyberpunk.png",
     alt: "Portrait lit in red and blue with neon glasses",
-    imageHeightClassName: "h-[390px] md:h-[699px]",
+    mobileImageHeight: 390,
+    desktopImageHeight: 699,
     objectPosition: "center",
   },
-  {
+  "agency-976": {
     image: "/project-agency.png",
     alt: "Dark portrait with bright green neon glasses",
-    imageHeightClassName: "h-[390px] md:h-[699px]",
+    mobileImageHeight: 390,
+    desktopImageHeight: 699,
     objectPosition: "center",
   },
-  {
+  "minimal-playground": {
     image: "/project-minimal.png",
     alt: "Modern white building facade with balconies",
-    imageHeightClassName: "h-[390px] md:h-[744px]",
+    mobileImageHeight: 390,
+    desktopImageHeight: 744,
     objectPosition: "center",
   },
-];
+};
 
 type DisplayProject = {
   _id: string;
@@ -94,8 +109,24 @@ type DisplayProject = {
   tags: string[];
   image: string;
   alt: string;
-  imageHeightClassName: string;
+  mobileImageHeight: number;
+  desktopImageHeight: number;
   objectPosition: string;
+};
+
+type SanityImage = {
+  asset?: { url?: string };
+  alt?: string;
+};
+
+type SanityPortfolioProject = {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  legacyAlt?: string;
+  tags?: string[];
+  coverImage?: SanityImage;
+  legacyImage?: SanityImage;
 };
 
 const aboutDetailCopy =
@@ -193,10 +224,16 @@ function CornerFrame({ className = "" }: { className?: string }) {
 }
 
 function PortfolioCard({ project }: { project: DisplayProject }) {
+  const imageStyle = {
+    "--h-mobile": `${project.mobileImageHeight}px`,
+    "--h-desktop": `${project.desktopImageHeight}px`,
+  } as CSSProperties;
+
   return (
     <article className="flex w-full flex-col items-start gap-[10px]">
       <div
-        className={`relative w-full overflow-hidden ${project.imageHeightClassName}`}
+        className="portfolio-img-wrap relative w-full overflow-hidden"
+        style={imageStyle}
       >
         <Image
           src={project.image}
@@ -504,11 +541,11 @@ function FooterSection() {
 
       <div className="absolute bottom-0 left-8 right-8 hidden h-[219px] items-end justify-between xl:flex">
         <div className="relative h-[219px] w-[1093px] shrink-0 overflow-hidden">
-          <p className="absolute left-[5px] top-0 text-[290px] font-semibold capitalize leading-[0.8] tracking-[-17.4px]">
+          <p className="absolute left-[88px] top-0 text-[290px] font-semibold capitalize leading-[0.8] tracking-[-17.4px]">
             H.Studio
           </p>
-          <div className="absolute left-[-5px] top-[70px] flex h-[160px] w-[15px] items-center justify-center">
-            <p className="-rotate-90 font-mono text-sm font-normal uppercase leading-[1.1]">
+          <div className="absolute bottom-8 left-6 flex h-[128px] w-[48px] items-center justify-center">
+            <p className="[writing-mode:vertical-rl] rotate-180 font-mono text-sm font-normal uppercase leading-[1.1]">
               [ Coded By Claude ]
             </p>
           </div>
@@ -528,29 +565,29 @@ function FooterSection() {
 }
 
 export default async function Home() {
-  const sanityProjects = await client.fetch<Array<{
-    _id: string;
-    title: string;
-    slug: { current: string };
-    alt: string;
-    tags: string[];
-    coverImage?: { asset: { url: string } };
-  }>>(
-    `*[_type == "portfolioProject"] | order(_createdAt asc) {
-      _id, title, slug, alt, tags,
-      coverImage { asset->{ url } }
-    }`
+  const sanityProjects = await client.fetch<SanityPortfolioProject[]>(
+    PORTFOLIO_PROJECTS_QUERY
   );
 
-  const portfolioProjects: DisplayProject[] = sanityProjects.map((p, i) => ({
-    _id: p._id,
-    title: p.title,
-    tags: p.tags ?? [],
-    image: p.coverImage?.asset?.url ?? fallbackPortfolio[i]?.image ?? "",
-    alt: p.alt ?? fallbackPortfolio[i]?.alt ?? p.title,
-    imageHeightClassName: fallbackPortfolio[i]?.imageHeightClassName ?? "h-[390px] md:h-[699px]",
-    objectPosition: fallbackPortfolio[i]?.objectPosition ?? "center",
-  }));
+  const portfolioProjects: DisplayProject[] = sanityProjects.map((p) => {
+    const fallback = fallbackPortfolioBySlug[p.slug.current];
+    const image = p.coverImage?.asset?.url
+      ? p.coverImage
+      : p.legacyImage?.asset?.url
+        ? p.legacyImage
+        : undefined;
+
+    return {
+      _id: p._id,
+      title: p.title,
+      tags: p.tags ?? [],
+      image: image?.asset?.url ?? fallback?.image ?? "",
+      alt: image?.alt ?? p.legacyAlt ?? fallback?.alt ?? p.title,
+      mobileImageHeight: fallback?.mobileImageHeight ?? 390,
+      desktopImageHeight: fallback?.desktopImageHeight ?? 699,
+      objectPosition: fallback?.objectPosition ?? "center",
+    };
+  });
 
   return (
     <main>
