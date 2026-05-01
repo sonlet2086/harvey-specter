@@ -480,10 +480,10 @@ function FooterSection() {
   return (
     <footer
       id="contact"
-      className="relative h-[493px] overflow-hidden bg-black px-4 pt-12 text-white xl:h-[514px] xl:px-8"
+      className="flex h-[493px] flex-col items-start gap-12 overflow-hidden bg-black px-4 pt-12 text-white xl:h-[514px] xl:gap-[120px] xl:px-8"
     >
       <div className="flex w-full flex-col items-start gap-6 xl:gap-12">
-        <div className="flex w-full flex-col items-start justify-center gap-4 xl:flex-row xl:items-start xl:justify-between">
+        <div className="flex w-full flex-col items-start justify-center gap-4 xl:flex-row xl:items-start xl:justify-between xl:gap-0">
           <div className="flex w-[298px] flex-col items-start gap-3">
             <p className="min-w-full text-2xl font-light italic uppercase leading-[1.1] tracking-[-0.04em]">
               Have a{" "}
@@ -516,10 +516,10 @@ function FooterSection() {
           </nav>
         </div>
 
-        <div className="h-px w-full bg-white" />
+        <div className="h-0 w-full border-t border-white" />
       </div>
 
-      <div className="absolute bottom-0 left-4 right-4 flex h-[150px] flex-col items-center gap-4 whitespace-nowrap xl:hidden">
+      <div className="flex h-[150px] w-full flex-col items-center gap-4 whitespace-nowrap text-white xl:hidden">
         <div className="flex items-center gap-[34px] pb-8 text-center text-xs font-normal uppercase leading-[1.1] tracking-[-0.04em]">
           <a href="#contact" className="underline">
             licences
@@ -539,15 +539,17 @@ function FooterSection() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-8 right-8 hidden h-[219px] items-end justify-between xl:flex">
+      <div className="hidden h-[219px] w-full items-end justify-between xl:flex">
         <div className="relative h-[219px] w-[1093px] shrink-0 overflow-hidden">
-          <p className="absolute left-[88px] top-0 text-[290px] font-semibold capitalize leading-[0.8] tracking-[-17.4px]">
+          <p className="absolute left-[5px] top-0 whitespace-nowrap text-[290px] font-semibold capitalize leading-[0.8] tracking-[-17.4px]">
             H.Studio
           </p>
-          <div className="absolute bottom-8 left-6 flex h-[128px] w-[48px] items-center justify-center">
-            <p className="[writing-mode:vertical-rl] rotate-180 font-mono text-sm font-normal uppercase leading-[1.1]">
-              [ Coded By Claude ]
-            </p>
+          <div className="absolute left-0 top-[34px] flex h-[160px] w-[15px] items-center justify-center">
+            <div className="-rotate-90">
+              <p className="whitespace-nowrap font-mono text-sm font-normal uppercase leading-[1.1]">
+                [ Coded By Claude ]
+              </p>
+            </div>
           </div>
         </div>
 

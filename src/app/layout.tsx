@@ -1,24 +1,33 @@
 import type { Metadata } from "next";
-import { Inter, Geist_Mono, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const inter = Inter({
+const inter = localFont({
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "900"],
-  style: ["normal", "italic"],
+  src: [
+    {
+      path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2",
+      weight: "300 900",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-italic.woff2",
+      weight: "300 900",
+      style: "italic",
+    },
+  ],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  src: "../../node_modules/geist/dist/fonts/geist-mono/GeistMono-Variable.woff2",
 });
 
-const playfair = Playfair_Display({
+const playfair = localFont({
   variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["italic"],
+  src: "../../node_modules/@fontsource-variable/playfair-display/files/playfair-display-latin-wght-italic.woff2",
+  weight: "400 900",
+  style: "italic",
 });
 
 export const metadata: Metadata = {
