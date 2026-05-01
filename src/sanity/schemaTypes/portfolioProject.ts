@@ -6,6 +6,12 @@ export const portfolioProject = defineType({
   title: "Portfolio Project",
   type: "document",
   icon: FolderIcon,
+  preview: {
+    select: {
+      title: "title",
+      media: "coverImage",
+    },
+  },
   fields: [
     defineField({
       name: "coverImage",
