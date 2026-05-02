@@ -2,15 +2,13 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { client } from "@/sanity/client";
 import { PORTFOLIO_PROJECTS_QUERY } from "@/sanity/queries";
-import { MobileMenu } from "./mobile-menu";
+import { HeroNav } from "./hero-nav";
 import { NewsMobileSlider } from "./news-mobile-slider";
 import { TestimonialMobileSlider } from "./testimonial-mobile-slider";
 
 const heroDesktopImage = "/harvey-background-highres.jpg";
 const aboutPortraitImage = "/about-portrait.png";
 const cameraSectionImage = "/camera-section.png";
-
-const navLinks = ["About", "Services", "Projects", "News", "Contact"];
 
 const newsItems = [
   {
@@ -622,7 +620,10 @@ export default async function Home() {
 
   return (
     <main>
-      <section className="relative h-svh overflow-hidden bg-[#c2ccd1] lg:h-[847px]">
+      <section
+        id="hero"
+        className="relative h-svh overflow-hidden bg-[#c2ccd1] lg:h-[847px]"
+      >
         {/* Mobile: Figma-exact — left=0, extends 39.47% past right edge, full height */}
         <div className="absolute inset-y-0 left-0 lg:hidden" style={{ right: "-39.47%" }}>
           <Image
@@ -662,28 +663,8 @@ export default async function Home() {
 
         <div className="relative flex h-full flex-col items-center justify-between px-4 pb-6 lg:justify-start lg:gap-[240px] lg:px-8 lg:pb-0">
 
-          <nav className="flex w-full shrink-0 items-center justify-between py-6">
-            <span className="text-base font-semibold capitalize tracking-[-0.04em] text-black">
-              H.Studio
-            </span>
-
-            {/* Desktop links */}
-            <div className="hidden lg:flex items-center gap-14 text-base font-semibold capitalize tracking-[-0.04em] text-black">
-              {navLinks.map((item) => (
-                <a key={item} href={`#${item.toLowerCase()}`}>
-                  {item}
-                </a>
-              ))}
-            </div>
-
-            {/* Mobile hamburger */}
-            <MobileMenu />
-
-            {/* Desktop CTA */}
-            <button className="hidden lg:flex items-center justify-center bg-black text-white text-sm font-medium tracking-[-0.04em] px-4 py-3 rounded-full cursor-pointer">
-              Let&apos;s talk
-            </button>
-          </nav>
+          <HeroNav />
+          <div aria-hidden="true" className="h-[72px] w-full shrink-0" />
 
           <div className="mb-8 flex h-[341px] w-full shrink-0 flex-col items-center justify-between lg:mb-0 lg:h-auto lg:justify-center">
 
