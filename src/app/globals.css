@@ -18,6 +18,58 @@ body {
   font-family: var(--font-sans);
 }
 
+.btn-primary,
+.btn-on-dark,
+.btn-icon,
+.btn-dot,
+.btn-menu {
+  cursor: pointer;
+}
+
+.btn-primary {
+  border: 1px solid #000;
+  background: #000;
+  color: #fff;
+}
+
+.btn-on-dark {
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: transparent;
+  color: #fff;
+}
+
+.btn-icon {
+  border-radius: 9999px;
+}
+
+.btn-primary:focus-visible,
+.btn-icon:focus-visible,
+.btn-dot:focus-visible,
+.btn-menu:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+.btn-on-dark:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.about-fill-text,
+.about-fill-text :where(h1, h2, p, span) {
+  color: transparent;
+  background:
+    linear-gradient(
+      0deg,
+      #1f1f1f 0%,
+      #1f1f1f var(--fill, 0%),
+      rgba(31, 31, 31, 0.16) var(--fill, 0%),
+      rgba(31, 31, 31, 0.16) 100%
+    );
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
 .portfolio-img-wrap {
   height: var(--h-mobile, 390px);
 }

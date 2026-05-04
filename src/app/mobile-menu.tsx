@@ -119,7 +119,7 @@ export function MobileMenu() {
   return (
     <>
       <button
-        className="lg:hidden"
+        className="btn-menu lg:hidden"
         aria-label="Open menu"
         aria-expanded={open}
         onClick={() => {
@@ -152,7 +152,7 @@ export function MobileMenu() {
             <button
               onClick={closeMenu}
               aria-label="Close menu"
-              className="flex h-8 w-8 items-center justify-center"
+              className="btn-menu flex h-8 w-8 items-center justify-center"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path
@@ -193,7 +193,7 @@ export function MobileMenu() {
             </p>
             <button
               onClick={closeMenu}
-              className="rounded-full border border-white/30 px-5 py-2.5 text-sm font-medium tracking-[-0.04em] text-white"
+              className="btn-on-dark rounded-full px-5 py-2.5 text-sm font-medium tracking-[-0.04em]"
             >
               Let&apos;s talk
             </button>

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import gsap from "gsap";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 type TestimonialSlide = {
   key: string;
@@ -21,13 +22,51 @@ export function TestimonialMobileSlider({
   slides: TestimonialSlide[];
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.45 }
+    );
+
+    observer.observe(slider);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!inView || slides.length < 2) return;
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((index) => (index + 1) % slides.length);
+    }, 4000);
+
+    return () => window.clearInterval(interval);
+  }, [inView, slides.length]);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    gsap.to(trackRef.current, {
+      xPercent: -activeIndex * 100,
+      duration: prefersReducedMotion ? 0 : 0.55,
+      ease: "power3.out",
+    });
+  }, [activeIndex]);
 
   return (
-    <div className="-mx-4 mt-8 md:hidden">
+    <div ref={sliderRef} className="-mx-4 mt-8 md:hidden">
       <div className="overflow-hidden px-4 py-8">
         <div
-          className="flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          ref={trackRef}
+          className="flex"
         >
           {slides.map((slide) => (
             <div
@@ -35,7 +74,7 @@ export function TestimonialMobileSlider({
               className="flex w-full shrink-0 items-center justify-center px-1"
             >
               <article
-                className={`flex min-h-[390px] w-full flex-col items-start justify-between gap-6 rounded bg-[#f1f1f1] p-6 text-[#1f1f1f] ring-1 ring-[#ddd] ${slide.rotateClassName}`}
+                className={`testimonial-card flex min-h-[390px] w-full flex-col items-start justify-between gap-6 rounded bg-[#f1f1f1] p-6 text-[#1f1f1f] ring-1 ring-[#ddd] ${slide.rotateClassName}`}
               >
                 <span
                   aria-hidden="true"
@@ -68,7 +107,7 @@ export function TestimonialMobileSlider({
             aria-label={`Show ${slide.testimonial.name} testimonial`}
             aria-pressed={activeIndex === index}
             onClick={() => setActiveIndex(index)}
-            className={`size-2.5 rounded-full transition-colors ${
+            className={`btn-dot size-2.5 rounded-full ${
               activeIndex === index ? "bg-black" : "bg-black/20"
             }`}
           />

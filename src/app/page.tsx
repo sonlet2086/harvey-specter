@@ -2,13 +2,13 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { client } from "@/sanity/client";
 import { PORTFOLIO_PROJECTS_QUERY } from "@/sanity/queries";
-import { HeroNav } from "./hero-nav";
+import { AboutSections } from "./about-sections";
+import { CameraParallaxSection } from "./camera-parallax-section";
+import { HeroSection } from "./hero-section";
 import { NewsMobileSlider } from "./news-mobile-slider";
+import { ScrollEnhancements } from "./scroll-enhancements";
+import { ServicesSection } from "./services-section";
 import { TestimonialMobileSlider } from "./testimonial-mobile-slider";
-
-const heroDesktopImage = "/harvey-background-highres.jpg";
-const aboutPortraitImage = "/about-portrait.png";
-const cameraSectionImage = "/camera-section.png";
 
 const newsItems = [
   {
@@ -27,40 +27,6 @@ const newsItems = [
 
 const newsDescription =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
-const serviceDescriptionDesktop =
-  "Placeholder description of this service. Explain the value you provide and the outcomes clients can expect. Keep it to two or three sentences.";
-
-const serviceDescriptionMobile =
-  "We are a creative studio that loves making beautiful websites and premium products. We've won some awards for our work. We're really good at creating brands, designing cool stuff, and making things work just right.";
-
-const services = [
-  {
-    number: "1",
-    title: "Brand Discovery",
-    image: "/service-brand.png",
-    alt: "Printed brand cards and packaging held in someone's hands",
-  },
-  {
-    number: "2",
-    title: "Web design & Dev",
-    image: "/service-web.png",
-    alt: "Tablet showing a wireframe sketch beside a mouse",
-  },
-  {
-    number: "3",
-    title: "Marketing",
-    image: "/service-marketing.png",
-    alt: "Analytics dashboard displayed on a bright screen",
-  },
-  {
-    number: "4",
-    title: "Photography",
-    image: "/service-photography.png",
-    alt: "White skincare tube on green leaves",
-    imageClassName: "object-[center_84%]",
-  },
-];
 
 const fallbackPortfolioBySlug: Record<
   string,
@@ -127,9 +93,6 @@ type SanityPortfolioProject = {
   coverImage?: SanityImage;
   legacyImage?: SanityImage;
 };
-
-const aboutDetailCopy =
-  "Placeholder paragraph one. This is where you introduce yourself — your background, your passion for your craft, and what drives you creatively. Two to three sentences work best here. Placeholder paragraph two. Here you can describe your technical approach, how you collaborate with clients, or what sets your work apart from others in your field.";
 
 const testimonials = {
   marko: {
@@ -229,7 +192,7 @@ function PortfolioCard({ project }: { project: DisplayProject }) {
   } as CSSProperties;
 
   return (
-    <article className="flex w-full flex-col items-start gap-[10px]">
+    <article data-project-card className="flex w-full flex-col items-start gap-[10px]">
       <div
         className="portfolio-img-wrap relative w-full overflow-hidden"
         style={imageStyle}
@@ -262,7 +225,7 @@ function PortfolioCard({ project }: { project: DisplayProject }) {
           {project.title}
         </h3>
         <button
-          className="flex size-8 shrink-0 items-center justify-center text-black"
+          className="btn-icon flex size-8 shrink-0 items-center justify-center text-black"
           aria-label={`Open ${project.title}`}
         >
           <ArrowUpRightIcon />
@@ -284,7 +247,7 @@ function PortfolioCta({ className = "" }: { className?: string }) {
           Discover how my creativity transforms ideas into impactful digital
           experiences — schedule a call with me to get started.
         </p>
-        <button className="rounded-[24px] bg-black px-4 py-3 text-sm font-medium leading-[normal] tracking-[-0.04em] text-white">
+        <button className="btn-primary rounded-[24px] px-4 py-3 text-sm font-medium leading-[normal] tracking-[-0.04em]">
           Let&apos;s talk
         </button>
       </div>
@@ -304,7 +267,7 @@ function TestimonialCard({
 }) {
   return (
     <article
-      className={`flex flex-col items-start gap-4 rounded bg-[#f1f1f1] p-6 text-[#1f1f1f] ring-1 ring-[#ddd] ${className}`}
+      className={`testimonial-card flex flex-col items-start gap-4 rounded bg-[#f1f1f1] p-6 text-[#1f1f1f] ring-1 ring-[#ddd] ${className}`}
     >
       <span
         aria-hidden="true"
@@ -354,7 +317,7 @@ function TestimonialsSection() {
   ];
 
   return (
-    <section className="relative h-auto min-h-[527.259px] overflow-hidden bg-[#f7f7f7] px-4 py-16 text-black xl:h-[987px] xl:px-8 xl:py-[120px]">
+    <section id="testimonials" className="relative h-auto min-h-[527.259px] overflow-hidden bg-[#f7f7f7] px-4 py-16 text-black xl:h-[987px] xl:px-8 xl:py-[120px]">
       <div className="relative mx-auto h-full w-full max-w-[1376px] xl:static">
         <h2 className="flex w-full justify-center text-center font-sans text-[64px] font-medium capitalize leading-[0.8] tracking-[-0.07em] xl:absolute xl:left-8 xl:right-8 xl:top-[384.5px] xl:text-[198px] xl:leading-[1.1]">
           Testimonials
@@ -452,7 +415,7 @@ function NewsCard({
 
       <a
         href="#news"
-        className="flex h-[26px] items-center justify-center gap-[10px] border-b border-black py-1 text-sm font-medium leading-none tracking-[-0.04em] text-black"
+        className="link-action flex h-[26px] items-center justify-center gap-[10px] border-b border-black py-1 text-sm font-medium leading-none tracking-[-0.04em] text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
       >
         <span>Read more</span>
         <ReadMoreArrowIcon />
@@ -514,7 +477,7 @@ function FooterSection() {
               Have a{" "}
               <span className="font-black not-italic">project</span> in mind?
             </p>
-            <button className="rounded-[24px] border border-white px-4 py-3 text-sm font-medium leading-[normal] tracking-[-0.04em] text-white">
+            <button className="btn-on-dark rounded-[24px] px-4 py-3 text-sm font-medium leading-[normal] tracking-[-0.04em]">
               Let&apos;s talk
             </button>
           </div>
@@ -620,290 +583,14 @@ export default async function Home() {
 
   return (
     <main>
-      <section
-        id="hero"
-        className="relative h-svh overflow-hidden bg-[#c2ccd1] lg:h-[847px]"
-      >
-        {/* Mobile: Figma-exact — left=0, extends 39.47% past right edge, full height */}
-        <div className="absolute inset-y-0 left-0 lg:hidden" style={{ right: "-39.47%" }}>
-          <Image
-            src={heroDesktopImage}
-            alt=""
-            fill
-            priority
-            sizes="140vw"
-            className="object-cover"
-          />
-        </div>
+      <ScrollEnhancements />
+      <HeroSection />
 
-        {/* Desktop: wider-than-viewport container, vertically offset per Figma */}
-        <div
-          className="absolute -translate-y-1/2 aspect-[2291/1346] hidden lg:block"
-          style={{ left: "-32.08%", right: "-37.49%", top: "calc(50% + 134.84px)" }}
-        >
-          <Image
-            src={heroDesktopImage}
-            alt=""
-            fill
-            priority
-            sizes="170vw"
-            className="object-cover object-top"
-          />
-        </div>
+      <AboutSections />
 
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[349px] bg-[rgba(217,217,217,0.01)] backdrop-blur-[10px] lg:h-auto lg:top-[464px]"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 65%)",
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, black 65%)",
-          }}
-        />
+      <CameraParallaxSection />
 
-        <div className="relative flex h-full flex-col items-center justify-between px-4 pb-6 lg:justify-start lg:gap-[240px] lg:px-8 lg:pb-0">
-
-          <HeroNav />
-          <div aria-hidden="true" className="h-[72px] w-full shrink-0" />
-
-          <div className="mb-8 flex h-[341px] w-full shrink-0 flex-col items-center justify-between lg:mb-0 lg:h-auto lg:justify-center">
-
-            <div className="flex w-full flex-col items-center lg:items-start lg:pb-[15px]">
-              <p
-                className="w-full px-[18px] text-center font-mono text-sm uppercase leading-[1.1] text-white mix-blend-overlay lg:mb-[-15px] lg:text-left"
-              >
-                [ Hello i&apos;m ]
-              </p>
-              <h1
-                className="mb-0 w-full whitespace-pre-wrap text-center font-sans text-[96px] font-medium capitalize leading-[0.8] tracking-[-6.72px] text-white mix-blend-overlay lg:mb-[-15px] lg:text-left lg:text-[clamp(164px,13.75vw,198px)] lg:leading-[1.1] lg:tracking-[-13.86px]"
-              >
-                Harvey   Specter
-              </h1>
-            </div>
-
-            <div className="flex w-full justify-center lg:justify-end lg:mt-0">
-              <div className="flex w-[293px] flex-col items-start gap-[17px] lg:w-[294px]">
-                <p className="w-[294px] text-[#1f1f1f] text-sm font-bold italic uppercase tracking-[-0.04em] leading-[1.1]">
-                  H.Studio is a{" "}
-                  <span className="font-normal">full-service</span>
-                  {" "}creative studio creating beautiful digital experiences
-                  and products. We are an{" "}
-                  <span className="font-normal">award winning</span>
-                  {" "}desing and art group specializing in branding, web
-                  design and engineering.
-                </p>
-                <button className="rounded-[24px] bg-black px-4 py-3 text-sm font-medium tracking-[-0.04em] text-white cursor-pointer">
-                  Let&apos;s talk
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section
-        id="about"
-        className="bg-[#f7f7f7] px-4 py-12 text-black md:px-8 md:py-[120px]"
-      >
-        <div className="mx-auto flex w-full max-w-[1376px] flex-col gap-6">
-          <div className="flex w-full flex-col items-end gap-3">
-            <p className="w-full text-right font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f]">
-              [ 8+ years in industry ]
-            </p>
-            <div className="h-px w-full bg-black/60" />
-          </div>
-
-          <div className="flex w-full flex-col items-center justify-center gap-2 uppercase md:hidden">
-            <div className="flex w-full flex-col items-center justify-center gap-3">
-              <span className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
-                001
-              </span>
-              <h2 className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
-                A creative director <span aria-hidden="true">/</span>
-              </h2>
-            </div>
-
-            <p className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
-              Photographer
-            </p>
-
-            <p className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
-              Born{" "}
-              <span className="font-[family-name:var(--font-playfair)] italic normal-case">
-                &amp;
-              </span>{" "}
-              raised
-            </p>
-
-            <p className="font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
-              on the south side
-            </p>
-
-            <div className="flex w-full flex-col items-center justify-center gap-3 whitespace-nowrap">
-              <p className="text-center font-sans text-[clamp(40px,10.5vw,48px)] font-light leading-[0.84] tracking-[-0.08em]">
-                of chicago.
-              </p>
-              <p className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
-                [ creative freelancer ]
-              </p>
-            </div>
-          </div>
-
-          <div className="hidden w-full flex-col gap-2 uppercase md:flex">
-            <div className="flex w-full items-start gap-3 whitespace-nowrap">
-              <h2 className="font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em]">
-                A creative director&nbsp;&nbsp; <span aria-hidden="true">/</span>
-              </h2>
-              <span className="shrink-0 font-mono text-sm leading-[1.1] text-[#1f1f1f]">
-                001
-              </span>
-            </div>
-
-            <p className="pl-[15.55%] font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
-              Photographer
-            </p>
-
-            <p className="pl-[44.33%] font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
-              Born{" "}
-              <span className="font-[family-name:var(--font-playfair)] italic normal-case">
-                &amp;
-              </span>{" "}
-              raised
-            </p>
-
-            <p className="font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
-              on the south side
-            </p>
-
-            <div className="relative flex w-full flex-col pl-[44.04%]">
-              <p className="min-w-full font-sans text-[clamp(48px,6.667vw,96px)] font-light leading-[0.84] tracking-[-0.08em] whitespace-nowrap">
-                of chicago.
-              </p>
-              <p className="mt-3 self-end font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
-                [ creative freelancer ]
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#f7f7f7] px-4 py-12 text-[#1f1f1f] xl:px-8 xl:py-20">
-        <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-5 xl:h-[614px] xl:flex-row xl:justify-between xl:gap-8">
-          <p className="font-mono text-sm uppercase leading-[1.1] whitespace-nowrap xl:hidden">
-            002
-          </p>
-
-          <p className="font-mono text-sm uppercase leading-[1.1] whitespace-nowrap xl:shrink-0">
-            [ About ]
-          </p>
-
-          <div className="flex w-full flex-col items-start gap-5 xl:h-full xl:w-[min(71.44vw,983px)] xl:flex-row xl:items-end xl:gap-8">
-            <div className="flex w-full max-w-[465px] items-stretch justify-between xl:w-[min(33.79vw,465px)] xl:shrink">
-              <div className="flex w-6 shrink-0 flex-col justify-between">
-                <span className="block size-4 border-l border-t border-[#1f1f1f]" />
-                <span className="block size-4 border-b border-l border-[#1f1f1f]" />
-              </div>
-
-              <p className="min-w-0 flex-1 py-3 text-sm font-normal leading-[1.3] tracking-[-0.04em]">
-                {aboutDetailCopy}
-              </p>
-
-              <div className="flex w-6 shrink-0 flex-col items-end justify-between">
-                <span className="block size-4 border-r border-t border-[#1f1f1f]" />
-                <span className="block size-4 border-b border-r border-[#1f1f1f]" />
-              </div>
-            </div>
-
-            <div className="flex w-full flex-col items-start xl:w-auto xl:shrink-0 xl:flex-row xl:gap-6">
-              <p className="hidden font-mono text-sm uppercase leading-[1.1] whitespace-nowrap xl:block">
-                002
-              </p>
-
-              <div className="relative aspect-[422/594] w-full max-w-[436px] overflow-hidden xl:h-[614px] xl:w-[436px] xl:max-w-none">
-                <Image
-                  src={aboutPortraitImage}
-                  alt="Black and white close-up portrait of Harvey Specter"
-                  fill
-                  sizes="(min-width: 1024px) 436px, calc(100vw - 32px)"
-                  className="object-cover object-center"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative h-[70vh] max-h-[565px] overflow-hidden bg-[#111] lg:max-h-none lg:h-svh">
-        <Image
-          src={cameraSectionImage}
-          alt="Photographer looking through a camera outdoors"
-          fill
-          sizes="100vw"
-          className="object-cover object-[32%_50%] lg:object-center"
-        />
-      </section>
-
-      <section
-        id="services"
-        className="bg-black px-4 py-12 text-white md:px-8 md:py-16 xl:py-20"
-      >
-        <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-8 xl:gap-12">
-          <p className="font-mono text-sm uppercase leading-[1.1] whitespace-nowrap">
-            [ Services ]
-          </p>
-
-          <div className="flex w-full items-center justify-between font-sans text-[32px] font-light uppercase leading-[normal] tracking-[-0.08em] md:text-[clamp(48px,6.667vw,96px)]">
-            <p className="shrink-0">[4]</p>
-            <p className="shrink-0">Deliverables</p>
-          </div>
-
-          <div className="flex w-full flex-col gap-12">
-            {services.map((service) => (
-              <article
-                key={service.number}
-                className="flex w-full flex-col items-start gap-3 xl:gap-[9px]"
-              >
-                <div className="flex w-full flex-col items-start gap-[9px]">
-                  <p className="w-full font-mono text-sm uppercase leading-[1.1]">
-                    [ {service.number} ]
-                  </p>
-                  <div className="h-px w-full bg-white/70" />
-                </div>
-
-                <div className="flex w-full flex-col items-start gap-4 xl:flex-row xl:justify-between xl:gap-6">
-                  <h3 className="whitespace-nowrap font-sans text-4xl font-bold italic uppercase leading-[1.1] tracking-[-0.04em]">
-                    {service.title}
-                  </h3>
-
-                  <div className="flex w-full flex-col items-start gap-4 xl:w-[568px] xl:flex-row xl:gap-6">
-                    <p className="w-full text-sm font-normal leading-[1.3] tracking-[-0.04em] xl:w-[393px]">
-                      <span className="xl:hidden">
-                        {serviceDescriptionMobile}
-                      </span>
-                      <span className="hidden xl:inline">
-                        {serviceDescriptionDesktop}
-                      </span>
-                    </p>
-
-                    <div className="relative size-[151px] shrink-0 overflow-hidden">
-                      <Image
-                        src={service.image}
-                        alt={service.alt}
-                        fill
-                        sizes="151px"
-                        className={`object-cover ${
-                          service.imageClassName ?? "object-center"
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <ServicesSection />
 
       <section
         id="projects"
@@ -911,23 +598,23 @@ export default async function Home() {
       >
         <div className="mx-auto flex w-full max-w-[1376px] flex-col items-start gap-8 xl:gap-[61px]">
           <div className="flex w-full flex-col items-start gap-4 uppercase xl:h-[166px] xl:flex-row xl:items-start xl:justify-between xl:gap-0">
-            <p className="font-mono text-sm leading-[1.1] text-[#1f1f1f] xl:hidden">
+            <p data-project-head className="font-mono text-sm leading-[1.1] text-[#1f1f1f] xl:hidden">
               [ Portfolio ]
             </p>
 
             <div className="flex w-full items-start justify-between xl:w-[467px] xl:justify-start xl:gap-[10px]">
-              <h2 className="font-sans text-[32px] font-light leading-[0.86] tracking-[-0.08em] text-black xl:text-[96px]">
+              <h2 data-project-head className="font-sans text-[32px] font-light leading-[0.86] tracking-[-0.08em] text-black xl:text-[96px]">
                 Selected
                 <br />
                 Work
               </h2>
-              <p className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
+              <p data-project-head className="font-mono text-sm leading-[1.1] text-[#1f1f1f]">
                 004
               </p>
             </div>
 
             <div className="hidden h-[110px] w-[15px] items-center justify-center xl:flex">
-              <p className="-rotate-90 font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
+              <p data-project-head className="-rotate-90 font-mono text-sm uppercase leading-[1.1] text-[#1f1f1f] whitespace-nowrap">
                 [ Portfolio ]
               </p>
             </div>

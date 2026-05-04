@@ -1,7 +1,8 @@
 "use client";
 
+import gsap from "gsap";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type NewsSlide = {
   image: string;
@@ -37,13 +38,26 @@ export function NewsMobileSlider({
   description: string;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    gsap.to(trackRef.current, {
+      xPercent: -activeIndex * 100,
+      duration: prefersReducedMotion ? 0 : 0.5,
+      ease: "power3.out",
+    });
+  }, [activeIndex]);
 
   return (
     <div className="w-full md:hidden">
       <div className="overflow-hidden">
         <div
-          className="flex transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+          ref={trackRef}
+          className="flex"
         >
           {items.map((item, index) => (
             <article
@@ -67,7 +81,7 @@ export function NewsMobileSlider({
 
               <a
                 href="#news"
-                className="flex h-[26px] items-center justify-center gap-[10px] border-b border-black py-1 text-sm font-medium leading-none tracking-[-0.04em] text-black"
+                className="link-action flex h-[26px] items-center justify-center gap-[10px] border-b border-black py-1 text-sm font-medium leading-none tracking-[-0.04em] text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
               >
                 <span>Read more</span>
                 <ReadMoreArrowIcon />
@@ -88,7 +102,7 @@ export function NewsMobileSlider({
             aria-label={`Show news item ${index + 1}`}
             aria-pressed={activeIndex === index}
             onClick={() => setActiveIndex(index)}
-            className={`size-2.5 rounded-full transition-colors ${
+            className={`btn-dot size-2.5 rounded-full ${
               activeIndex === index ? "bg-black" : "bg-black/20"
             }`}
           />
